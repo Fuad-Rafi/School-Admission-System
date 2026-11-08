@@ -1,0 +1,21 @@
+# Build output
+**/bin/
+**/obj/
+
+# Tests / tooling
+**/TestResults/
+**/.vs/
+**/.vscode/
+**/*.user
+**/*.suo
+
+# Local files
+**/appsettings.Local.json
+**/.env
+
+# Git / docs
+.git/
+.gitignore
+documentation/
+*.md
+*.pdf
