@@ -1,0 +1,50 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Confidential assignment material (must never be published)
+/Asst_Software_Engineer_Project_Assignment.pdf
+*.pdf
+
+# Local planning docs — never commit or push Markdown
+/documentation/
+*.md
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.vscode/
+TestResults/
+*.trx
+*.coverage
+coverage/
+
+# Node / Vite
+node_modules/
+dist/
+dist-ssr/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs / temp
+*.log
+logs/
+tmp/
+temp/
+
+# IDE
+.idea/
+*.swp
