@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admission.Api", "Admission.Api\Admission.Api.csproj", "{0FC920E6-4F58-4ED1-A8F0-4ABC7D8A9E11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admission.Api.Tests", "Admission.Api.Tests\Admission.Api.Tests.csproj", "{0D91F473-B76D-46B5-8549-38A27C347FF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{0FC920E6-4F58-4ED1-A8F0-4ABC7D8A9E11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FC920E6-4F58-4ED1-A8F0-4ABC7D8A9E11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FC920E6-4F58-4ED1-A8F0-4ABC7D8A9E11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D91F473-B76D-46B5-8549-38A27C347FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D91F473-B76D-46B5-8549-38A27C347FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D91F473-B76D-46B5-8549-38A27C347FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D91F473-B76D-46B5-8549-38A27C347FF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
