@@ -1,5 +1,7 @@
 using Admission.Api.Data;
 using Admission.Api.Endpoints;
+using Admission.Api.Infrastructure.Json;
+using Admission.Api.Middleware;
 using Admission.Api.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,15 +30,25 @@ builder.Services.AddCors(cors => cors.AddDefaultPolicy(policy =>
           .AllowAnyHeader()
           .AllowAnyMethod()));
 
-builder.Services.AddProblemDetails();
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.Converters.Add(new UtcDateTimeOffsetConverter()));
+
+// Route-handler binding failures (e.g. malformed JSON) become BadHttpRequestException,
+// which the error middleware turns into the documented JSON error shape.
+builder.Services.Configure<RouteHandlerOptions>(options => options.ThrowOnBadRequest = true);
+
+builder.Services.AddScoped<SeatService>();
+builder.Services.AddHostedService<HoldExpiryService>();
 
 var app = builder.Build();
 
 // --- Pipeline ----------------------------------------------------------------
-app.UseExceptionHandler();
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseCors();
 
 app.MapHealthEndpoints();
+app.MapClassEndpoints();
+app.MapHoldEndpoints();
 
 // --- Startup -----------------------------------------------------------------
 await DatabaseInitializer.InitializeAsync(app.Services, app.Logger);
