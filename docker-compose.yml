@@ -1,5 +1,13 @@
 name: school-admission
 
+x-backend-environment: &backend-environment
+  ASPNETCORE_URLS: http://+:8080
+  ASPNETCORE_ENVIRONMENT: Production
+  ConnectionStrings__Default: "Host=db;Port=5432;Database=${POSTGRES_DB:-admission};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres};Maximum Pool Size=40"
+  HOLD_DURATION_SECONDS: ${HOLD_DURATION_SECONDS:-600}
+  HOLD_SWEEP_INTERVAL_SECONDS: ${HOLD_SWEEP_INTERVAL_SECONDS:-1}
+  CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+
 services:
   db:
     image: postgres:16-alpine
@@ -21,13 +29,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    environment:
-      ASPNETCORE_URLS: http://+:8080
-      ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__Default: "Host=db;Port=5432;Database=${POSTGRES_DB:-admission};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}"
-      HOLD_DURATION_SECONDS: ${HOLD_DURATION_SECONDS:-600}
-      HOLD_SWEEP_INTERVAL_SECONDS: ${HOLD_SWEEP_INTERVAL_SECONDS:-1}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+    environment: *backend-environment
     ports:
       - "8080:8080"
     depends_on:
@@ -39,6 +41,48 @@ services:
       timeout: 3s
       retries: 10
       start_period: 20s
+    restart: unless-stopped
+
+  # Optional bonus profile: a second backend process on :8081 sharing the same database.
+  # Start with: docker compose --profile multi up -d
+  backend-2:
+    profiles: ["multi"]
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment: *backend-environment
+    ports:
+      - "8081:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      API_BASE_URL: ${API_BASE_URL:-http://localhost:8080}
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/ > /dev/null || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     restart: unless-stopped
 
 volumes:
