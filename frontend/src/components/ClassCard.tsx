@@ -20,11 +20,15 @@ export function ClassCard({
     totalSeats === 0
       ? 0
       : Math.min(100 - heldPercent, (classInfo.confirmedSeats / totalSeats) * 100);
+  const isFull = classInfo.availableSeats <= 0;
 
   return (
     <article className="card class-card">
       <header className="card-header">
-        <h3>{classInfo.name}</h3>
+        <div className="card-title">
+          <h3>{classInfo.name}</h3>
+          {isFull ? <span className="full-tag">Full</span> : null}
+        </div>
         <span className="muted">{classInfo.totalSeats} seats</span>
       </header>
 

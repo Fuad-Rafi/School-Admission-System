@@ -32,6 +32,16 @@ export function ClassesPage({ studentId, notify }: ClassesPageProps) {
 
   const networkError = classes.error ?? (studentId ? myHolds.error : null);
 
+  const classList = classes.data ?? [];
+  const totalSeats = classList.reduce(
+    (sum, classInfo) => sum + classInfo.totalSeats,
+    0,
+  );
+  const totalAvailable = classList.reduce(
+    (sum, classInfo) => sum + classInfo.availableSeats,
+    0,
+  );
+
   const handleCreate = async (name: string, totalSeats: number) => {
     const created = await api.createClass(name, totalSeats);
     notify('success', `Class "${created.name}" created.`);
@@ -115,8 +125,22 @@ export function ClassesPage({ studentId, notify }: ClassesPageProps) {
           </div>
         ) : null}
 
+        {classList.length > 0 ? (
+          <div className="summary-strip" aria-label="Classes summary">
+            <span>
+              <strong>{classList.length}</strong> classes
+            </span>
+            <span>
+              <strong>{totalSeats}</strong> total seats
+            </span>
+            <span className="summary-available">
+              <strong>{totalAvailable}</strong> available
+            </span>
+          </div>
+        ) : null}
+
         <div className="card-grid">
-          {(classes.data ?? []).map((classInfo) => (
+          {classList.map((classInfo) => (
             <ClassCard
               key={classInfo.id}
               classInfo={classInfo}
