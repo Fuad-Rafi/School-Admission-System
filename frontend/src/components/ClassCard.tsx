@@ -13,12 +13,28 @@ export function ClassCard({
   pending,
   onApply,
 }: ClassCardProps) {
+  const totalSeats = Math.max(0, classInfo.totalSeats);
+  const heldPercent =
+    totalSeats === 0 ? 0 : Math.min(100, (classInfo.heldSeats / totalSeats) * 100);
+  const confirmedPercent =
+    totalSeats === 0
+      ? 0
+      : Math.min(100 - heldPercent, (classInfo.confirmedSeats / totalSeats) * 100);
+
   return (
     <article className="card class-card">
       <header className="card-header">
         <h3>{classInfo.name}</h3>
         <span className="muted">{classInfo.totalSeats} seats</span>
       </header>
+
+      <div className="seat-meter" aria-hidden="true">
+        <span className="seat-meter-held" style={{ width: `${heldPercent}%` }} />
+        <span
+          className="seat-meter-confirmed"
+          style={{ width: `${confirmedPercent}%` }}
+        />
+      </div>
 
       <dl className="seat-grid">
         <div className="seat-stat">

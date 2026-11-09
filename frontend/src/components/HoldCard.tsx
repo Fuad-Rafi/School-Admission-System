@@ -22,6 +22,8 @@ export function HoldCard({
   const countdown = useCountdown(hold.expiresAt);
   const expired = hold.status === 'HELD' && countdown.expired;
   const status = expired ? 'EXPIRED' : hold.status;
+  const urgent =
+    hold.status === 'HELD' && !countdown.expired && countdown.seconds <= 60;
   const notifiedRef = useRef(false);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export function HoldCard({
       </header>
 
       {status === 'HELD' ? (
-        <p className="countdown">
+        <p className={`countdown${urgent ? ' countdown-urgent' : ''}`}>
           Expires in <strong>{countdown.label}</strong>{' '}
           <span className="muted">({formatUtc(hold.expiresAt)})</span>
         </p>
