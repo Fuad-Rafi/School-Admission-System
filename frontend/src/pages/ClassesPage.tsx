@@ -100,7 +100,9 @@ export function ClassesPage({ studentId, notify }: ClassesPageProps) {
       <section>
         <div className="section-header">
           <h2>Classes</h2>
-          <span className="muted">Seat counts refresh every 3 seconds</span>
+          <span className="live-indicator">
+            <span className="live-dot" aria-hidden="true" /> Live · every 3 s
+          </span>
         </div>
 
         {classes.loading && !classes.data ? (

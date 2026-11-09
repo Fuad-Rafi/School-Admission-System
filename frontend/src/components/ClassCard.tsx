@@ -36,6 +36,18 @@ export function ClassCard({
         />
       </div>
 
+      <div className="seat-legend" aria-hidden="true">
+        <span>
+          <i className="legend-dot legend-held" /> Held
+        </span>
+        <span>
+          <i className="legend-dot legend-confirmed" /> Confirmed
+        </span>
+        <span>
+          <i className="legend-dot legend-available" /> Available
+        </span>
+      </div>
+
       <dl className="seat-grid">
         <div className="seat-stat">
           <dt>Total</dt>
@@ -49,7 +61,7 @@ export function ClassCard({
           <dt>Confirmed</dt>
           <dd>{classInfo.confirmedSeats}</dd>
         </div>
-        <div className="seat-stat">
+        <div className="seat-stat seat-stat-available">
           <dt>Available</dt>
           <dd data-testid="available-seats">{classInfo.availableSeats}</dd>
         </div>

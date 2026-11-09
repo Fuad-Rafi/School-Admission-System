@@ -165,6 +165,9 @@ p {
 }
 
 .identity-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   padding: 0.3rem 0.65rem;
   background: var(--primary-soft);
   border: 1px solid #dbeafe;
@@ -173,6 +176,15 @@ p {
   font-size: 0.85rem;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.03em;
+}
+
+.identity-value::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
 }
 
 .tabs {
@@ -371,6 +383,19 @@ a:focus-visible {
   letter-spacing: -0.02em;
 }
 
+.seat-stat-available {
+  background: var(--primary-soft);
+  border-color: #dbeafe;
+}
+
+.seat-stat-available dt {
+  color: var(--primary-deep);
+}
+
+.seat-stat-available dd {
+  color: var(--primary-deep);
+}
+
 .seat-meter {
   display: flex;
   height: 7px;
@@ -394,6 +419,42 @@ a:focus-visible {
 
 .seat-meter-confirmed {
   background: linear-gradient(90deg, #34d399, #059669);
+}
+
+.seat-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin: -0.35rem 0 0.9rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.seat-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+}
+
+.legend-held {
+  background: #f59e0b;
+}
+
+.legend-confirmed {
+  background: #059669;
+}
+
+.legend-available {
+  background: #cbd5e1;
 }
 
 .card-actions {
@@ -556,6 +617,28 @@ a:focus-visible {
   font-size: 0.88rem;
 }
 
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.22rem 0.55rem;
+  color: var(--success);
+  background: var(--success-soft);
+  border: 1px solid #a7f3d0;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.live-dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--success);
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
 .hint {
   margin-top: 0.4rem;
   color: var(--muted);
@@ -682,6 +765,16 @@ a:focus-visible {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(5, 150, 105, 0);
   }
 }
 

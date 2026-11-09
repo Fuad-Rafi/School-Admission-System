@@ -68,7 +68,9 @@ export function MyHoldsPage({ studentId, notify }: MyHoldsPageProps) {
     <div className="stack">
       <div className="section-header">
         <h2>My Applications</h2>
-        <span className="muted">Status refreshes every 2 seconds</span>
+        <span className="live-indicator">
+          <span className="live-dot" aria-hidden="true" /> Live · every 2 s
+        </span>
       </div>
 
       {holds.error ? (
